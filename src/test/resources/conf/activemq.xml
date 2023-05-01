@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+    <broker xmlns="http://activemq.apache.org/schema/core" 
+        adjustUsageLimits="false"
+        cacheTempDestinations="false"
+        dataDirectory="target/activemq-data"
+        dedicatedTaskRunner="false"
+        id="broker-0"
+        populateJMSXUserID="true"
+        restartAllowed="false"
+        schedulerSupport="true"
+        start="false"
+        useAuthenticatedPrincipalForJMSXUserID="true"
+        useJmx="true" 
+        useLocalHostBrokerName="true" 
+        useVirtualDestSubs="true" 
+        useVirtualDestSubsOnCreation="true" 
+        useVirtualTopics="true">
+        <destinationPolicy>
+            <policyMap>
+                <policyEntries>
+                    <policyEntry enableAudit="false" gcInactiveDestinations="false" producerFlowControl="false" topic="ActiveMQ.Advisory.&gt;" useCache="false">
+                        <pendingMessageLimitStrategy>
+                            <constantPendingMessageLimitStrategy limit="32768" />
+                        </pendingMessageLimitStrategy>
+                    </policyEntry>
+                    <policyEntry enableAudit="true" gcInactiveDestinations="false" topic="&gt;">
+                        <deadLetterStrategy>
+                            <individualDeadLetterStrategy destinationPerDurableSubscriber="true" topicSuffix=".DLQ" useQueueForTopicMessages="true" />
+                        </deadLetterStrategy>
+                        <pendingMessageLimitStrategy>
+                            <constantPendingMessageLimitStrategy limit="10000" />
+                        </pendingMessageLimitStrategy>
+                    </policyEntry>
+                    <policyEntry enableAudit="true" gcInactiveDestinations="false" maxBrowsePageSize="400" maxPageSize="200" optimizedDispatch="true" producerFlowControl="false" queue="&gt;" useCache="false">
+                        <deadLetterStrategy>
+                            <individualDeadLetterStrategy queueSuffix=".DLQ" />
+                        </deadLetterStrategy>
+                    </policyEntry>
+                </policyEntries>
+            </policyMap>
+        </destinationPolicy>
+        <managementContext>
+            <managementContext createConnector="false" />
+        </managementContext>
+        <networkConnectors />
+        <persistenceAdapter>
+            <kahaDB directory="target/activemq-data/kahadb" id="kahadb-0" journalMaxFileLength="1mb" preallocationScope="entire_journal_async" preallocationStrategy="zeros" />
+        </persistenceAdapter>
+        <systemUsage>
+            <systemUsage sendFailIfNoSpaceAfterTimeout="2000">
+                <memoryUsage>
+                    <memoryUsage percentOfJvmHeap="70" />
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="256 GB" />
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="1 GB" />
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+        <transportConnectors>
+            <transportConnector name="openwire" uri="nio://0.0.0.0:0" />
+        </transportConnectors>
+    </broker>
+</beans>
