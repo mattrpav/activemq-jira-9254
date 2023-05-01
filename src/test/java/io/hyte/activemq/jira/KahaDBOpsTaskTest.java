@@ -65,7 +65,7 @@ public class KahaDBOpsTaskTest {
         long sendTimeMillis = publishTextMessages(testQueueName, messageCount);
         System.out.println("Loaded " + messageCount + " messages in: " + sendTimeMillis + " (ms)");
 
-        // 2. Assert all db-*.log files are 2mb
+        // 2. Assert all db-*.log files are less than or equal to kahadb max lenth
         verfiyFiles();
     }
 
