@@ -105,10 +105,14 @@ public class KahaDBOpsTaskTest {
             messageProducer = session.createProducer(session.createQueue(queueName));
 
             long startTimeMillis = System.currentTimeMillis();
+            long bytesCounter = 0l;
             for (int i = 0; i < count; i++) {
-                messageProducer.send(generateTextMessage(session, i), DeliveryMode.PERSISTENT, 4, 0l);
+                Message message = generateTextMessage(session, i);
+                bytesCounter += message.getIntProperty("length");
+                messageProducer.send(message, DeliveryMode.PERSISTENT, 4, 0l);
                 if(i % 1_000 == 0) {
-                    System.out.println("Published message: " + i);
+                    System.out.println("Published message: " + i + " bytes: " + bytesCounter);
+                    bytesCounter = 0l;
                 }
             }
             long endTimeMillis = System.currentTimeMillis();
@@ -121,8 +125,10 @@ public class KahaDBOpsTaskTest {
     }
 
     protected static Message generateTextMessage(Session session, int seqId) throws JMSException {
-        Message textMessage = session.createTextMessage(generateRandomString(randomInt(MIN_MESSAGE_LEN, MAX_MESSAGE_LEN)));
+        String body = generateRandomString(randomInt(MIN_MESSAGE_LEN, MAX_MESSAGE_LEN));
+        Message textMessage = session.createTextMessage(body);
         textMessage.setIntProperty("JMSXGroupSeq", seqId);
+        textMessage.setIntProperty("length", body.length());
         return textMessage;
     }
 

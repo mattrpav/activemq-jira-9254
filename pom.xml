@@ -7,8 +7,16 @@
     <packaging>jar</packaging>
     <name>HYTE :: ActiveMQ :: JIRA AMQ-9254</name>
     <properties>
+        <!-- 5.18.1 Spring 5.3.25 xbean 4.22 -->
         <hyte.activemq.version>5.18.1</hyte.activemq.version>
         <hyte.spring.version>5.3.25</hyte.spring.version>
+        <hyte.xbean.version>4.22</hyte.xbean.version>
+        <!-- 5.15.15 Spring 4.3.30.RELEASE xbean 4.18-->
+        <!--
+        <hyte.activemq.version>5.15.15</hyte.activemq.version>
+        <hyte.spring.version>4.3.30.RELEASE</hyte.spring.version>
+        <hyte.xbean.version>4.18</hyte.xbean.version>
+        -->
     </properties>
     <dependencies>
         <dependency>
