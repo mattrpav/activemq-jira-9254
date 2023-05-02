@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+    <broker xmlns="http://activemq.apache.org/schema/core" 
+        dataDirectory="target/activemq-data"
+        dedicatedTaskRunner="false"
+        id="broker-0"
+        restartAllowed="false"
+        start="false"
+        useJmx="true" 
+        useLocalHostBrokerName="true">
+        <managementContext>
+            <managementContext createConnector="false" />
+        </managementContext>
+        <networkConnectors />
+        <persistenceAdapter>
+            <kahaDB directory="target/activemq-data/kahadb-jira-9254" id="kahadb-0" journalMaxFileLength="10kb" preallocationScope="entire_journal_async" preallocationStrategy="os_kernel_copy" />
+        </persistenceAdapter>
+        <systemUsage>
+            <systemUsage sendFailIfNoSpaceAfterTimeout="2000">
+                <memoryUsage>
+                    <memoryUsage percentOfJvmHeap="70" />
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="256 GB" />
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="1 GB" />
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+        <transportConnectors>
+            <transportConnector name="openwire" uri="nio://0.0.0.0:0" />
+        </transportConnectors>
+    </broker>
+</beans>
